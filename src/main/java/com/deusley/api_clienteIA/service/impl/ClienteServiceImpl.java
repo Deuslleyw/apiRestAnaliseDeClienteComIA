@@ -30,13 +30,20 @@ public class ClienteServiceImpl implements ClienteService {
                         + "Idade: "   + clienteRequest.getIdade() + ","
                         + "Compras: " + clienteRequest.getCompras() + ","
                         + "Ticket Medio: " + clienteRequest.getTicketMedio()
-                        + ". As categoarias são: Bronze, prata, ouro , platina. Responda apenas com a categoria.";
+                        + ". As categorias são: Bronze, prata, ouro , platina. Responda apenas com a categoria.";
 
+        String classificacao = openClienteIA.classificarCliente(prompt);
 
+        var cliente = new Cliente();
+            cliente.setNome(clienteRequest.getNome());
+            cliente.setIdade(clienteRequest.getIdade());
+            cliente.setCompras(clienteRequest.getCompras());
+            cliente.setTicketMedio(clienteRequest.getTicketMedio());
+            cliente.setClassificacao(classificacao);
 
+            clienteRepository.save(cliente);
 
-
-        return null;
+        return new ClienteResponse(clienteRequest.getNome(),classificacao);
     }
 
     @Override
