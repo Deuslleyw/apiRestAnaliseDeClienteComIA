@@ -23,5 +23,4 @@ public class Cliente {
     private Double ticketMedio;
     private String Classificacao;
 
-
 }

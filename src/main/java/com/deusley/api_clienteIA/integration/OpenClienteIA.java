@@ -21,11 +21,11 @@ public class OpenClienteIA {
         String requestBody = "{" + "\"model\": \"gpt-3.5-turbo\","
                                  + "\"messages\": [{\"role\": \"user\", \"content\": \"" + prompt + "\"}]"
                                  + "}";
-        String mensagemResposta = webClient.post()
+        String responseIA = webClient.post()
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        return mensagemResposta;
+        return responseIA;
     }
 }
