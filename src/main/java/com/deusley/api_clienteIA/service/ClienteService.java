@@ -11,7 +11,7 @@ public interface ClienteService {
 
      ClienteResponse classificarCliente(ClienteRequest clienteRequest);
 
-     List<Cliente> listarTodos();
+     List<Cliente> findAll();
 
 
 }
