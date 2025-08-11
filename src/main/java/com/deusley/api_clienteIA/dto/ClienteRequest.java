@@ -1,6 +1,6 @@
 package com.deusley.api_clienteIA.dto;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
 public class ClienteRequest {
