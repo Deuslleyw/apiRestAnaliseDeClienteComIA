@@ -1,36 +1,35 @@
 package com.deusley.api_clienteIA.integration;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
-@RequiredArgsConstructor
 public class OpenClienteIA {
 
-    @Value("${openai.api.key}")
-    private String apiKey;
+    private final WebClient webClient;
 
-    private final WebClient webClient = WebClient.builder()
-            .baseUrl("https://api.openai.com/v1/chat/completions")
-            .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
-            .build();
+    public OpenClienteIA(@Value("${spring.ai.openai.api-key}") String apiKey) {
+        this.webClient = WebClient.builder()
+                .baseUrl("https://api.openai.com/v1")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                .build();
+    }
 
     public String classificarCliente(String prompt) {
         String requestBody = "{"
-                + "\"model\": \"gpt-3.5-turbo\","
+                + "\"model\": \"gpt-4o-mini\","
                 + "\"messages\": [{\"role\": \"user\", \"content\": \"" + prompt + "\"}]"
                 + "}";
 
-        String resposta = webClient.post()
+        return webClient.post()
+                .uri("/chat/completions")
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-
-        return resposta;
-
-
-}}
+    }
+}
